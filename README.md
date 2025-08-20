@@ -77,6 +77,18 @@ SELECT COUNT (*) AS order_items FROM order_items;
 - **Delivery Performance:** Average ship→delivery is 12.30 days vs estimated 23.31 days (~half the estimate).
 - **Peak Month:** April of 2018 recorded the highest revenue: *$1,132,878.93*.
 
+### Screenshots
+
+![Most delivered orders by state — SP on top](screenshots/most_orders_delivered.png)
+
+![Percent of total revenue by category](screenshots/pct_of_total.png)
+
+![Top payment type — credit_card](screenshots/payment_type.png)
+
+![Highest average item price — computers](screenshots/most_avg_item_price.png)
+
+![Category item revenue — health_beauty on top](screenshots/category_item_revenue.png)
+
 ### Notes
 - **Dates are stored as `TEXT`.** Use:
   - `substr(order_purchase_timestamp, 1, 7)` → YYYY-MM
