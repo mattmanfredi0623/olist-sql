@@ -1,6 +1,6 @@
 -- 02_GROUP_BY: Aggregations & KPIs
 
--- 1) Orders delivered by state
+-- Orders delivered by state
 SELECT c.customer_state,
        COUNT(*) AS orders_delivered
 FROM orders o
@@ -9,7 +9,7 @@ WHERE o.order_status = 'delivered'
 GROUP BY c.customer_state
 ORDER BY orders_delivered DESC;
 
--- 2) Monthly order counts (YYYY-MM)
+-- Monthly order counts (YYYY-MM)
 SELECT substr(order_purchase_timestamp, 1, 7) AS month,
        COUNT(*) AS orders
 FROM orders
@@ -17,7 +17,7 @@ WHERE order_status = 'delivered'
 GROUP BY month
 ORDER BY month;
 
--- 3) Average item price & freight by category
+-- Average item price & freight by category
 SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category,
        ROUND(AVG(oi.price), 2)   AS avg_item_price,
        ROUND(AVG(oi.freight_value), 2) AS avg_freight
@@ -29,19 +29,19 @@ GROUP BY category
 ORDER BY avg_item_price DESC
 LIMIT 25;
 
--- 4) Payment type distribution
+-- Payment type distribution
 SELECT payment_type, COUNT(*) AS num_payments, ROUND(SUM(payment_value),2) AS total_value
 FROM order_payments
 GROUP BY payment_type
 ORDER BY total_value DESC;
 
--- 5) Reviews distribution (score histogram)
+-- Reviews distribution (score histogram)
 SELECT review_score, COUNT(*) AS reviews
 FROM order_reviews
 GROUP BY review_score
 ORDER BY review_score;
 
--- 6) Seller performance (gross item revenue)
+-- Seller performance (gross item revenue)
 SELECT s.seller_id,
        s.seller_state,
        ROUND(SUM(oi.price), 2) AS gross_item_revenue,
@@ -54,7 +54,7 @@ GROUP BY s.seller_id, s.seller_state
 ORDER BY gross_item_revenue DESC
 LIMIT 20;
 
--- 7) Delivery speed KPIs (actual vs estimated)
+-- Delivery speed KPIs (actual vs estimated)
 SELECT
   ROUND(AVG(julianday(order_delivered_customer_date) - julianday(order_approved_at)), 2) AS avg_days_ship_to_delivery,
   ROUND(AVG(julianday(order_estimated_delivery_date) - julianday(order_approved_at)), 2) AS avg_days_ship_to_estimated
@@ -64,7 +64,7 @@ WHERE order_status = 'delivered'
   AND order_approved_at IS NOT NULL
   AND order_estimated_delivery_date IS NOT NULL;
 
--- 8) Top categories by total revenue (items only)
+-- Top categories by total revenue (items only)
 SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category,
        ROUND(SUM(oi.price), 2) AS item_revenue,
        COUNT(DISTINCT oi.order_id) AS distinct_orders
