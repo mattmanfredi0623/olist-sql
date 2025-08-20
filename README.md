@@ -70,11 +70,12 @@ SELECT COUNT (*) AS order_items FROM order_items;
 - Open files in sql/ and run queries (highlight + "Run Query").
 
 ### Insights
-- **Top categories by revenue:** Electronics and bed/bath/table account for a large share of delivered order revenue.
-- **Monthly revenue trend:** Strong growth in holiday months; consistent YoY patterns.
-- **Delivery speed:** Average actual delivery is ~12 days vs ~10 days estimated.
-- **Reviews:** Categories with longer shipping times tend to have lower review scores.
-- **Geography:** São Paulo (SP) contributes the majority of orders.
+- **Geography - Orders:** São Paulo (SP) leads with 40,501 delivered orders (highest volume).
+- **Category - Revenue & Share:** *health_beauty* is the top category by item revenue: $1,233,131.72, contributing 9.33% of total revenue.
+- **Category - Price:** *Computers* has the highest average item price: $1,098.34.
+- **Payments:** *Credit card* dominates with 76,795 payments (highest payment volume).
+- **Delivery Performance:** Average ship→delivery is 12.30 days vs estimated 23.31 days (~half the estimate).
+- **Peak Month:** April of 2018 recorded the highest revenue: *$1,132,878.93*.
 
 ### Notes
 - **Dates are stored as `TEXT`.** Use:
