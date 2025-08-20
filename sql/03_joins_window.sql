@@ -1,6 +1,6 @@
 -- 03_JOINS_WINDOW: Multi-table joins & analytic (window) functions
 
--- A) INNER JOIN: orders → customers (recent delivered)
+-- INNER JOIN: orders → customers (recent delivered)
 SELECT o.order_id,
        o.order_purchase_timestamp,
        c.customer_state
@@ -10,7 +10,7 @@ WHERE o.order_status = 'delivered'
 ORDER BY o.order_purchase_timestamp DESC
 LIMIT 20;
 
--- B) LEFT JOIN: customers with/without delivered orders (lifetime spend from items)
+-- LEFT JOIN: customers with/without delivered orders (lifetime spend from items)
 WITH item_totals AS (
   SELECT order_id, SUM(price + freight_value) AS order_total
   FROM order_items
@@ -26,7 +26,7 @@ GROUP BY c.customer_id, c.customer_state
 ORDER BY lifetime_spend DESC
 LIMIT 20;
 
--- C) Three-way JOIN: items -> orders -> products (top 20 expensive line items)
+-- Three-way JOIN: items -> orders -> products (top 20 expensive line items)
 SELECT oi.order_id, oi.order_item_id, p.product_category_name, oi.price, oi.freight_value
 FROM order_items oi
 JOIN orders o ON o.order_id = oi.order_id
@@ -35,7 +35,7 @@ WHERE o.order_status = 'delivered'
 ORDER BY oi.price DESC
 LIMIT 20;
 
--- D) Window: Monthly revenue per customer with ranking
+-- Window: Monthly revenue per customer with ranking
 WITH month_spend AS (
   SELECT c.customer_id,
          substr(o.order_purchase_timestamp, 1, 7) AS month,
@@ -55,7 +55,7 @@ WHERE monthly_spend IS NOT NULL
 ORDER BY month, rnk_in_month
 LIMIT 100;
 
--- E) Window: Running cumulative revenue by month
+-- Window: Running cumulative revenue by month
 WITH month_rev AS (
   SELECT substr(order_purchase_timestamp, 1, 7) AS month,
          SUM(oi.price + oi.freight_value) AS revenue
@@ -70,7 +70,7 @@ SELECT month,
 FROM month_rev
 ORDER BY month;
 
--- F) Window: Percent of total sales by category (using window SUM)
+-- Window: Percent of total sales by category (using window SUM)
 WITH cat_rev AS (
   SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category,
          SUM(oi.price) AS revenue
